@@ -1,16 +1,42 @@
-# React + Vite(첫 번째 프로젝트)
+## 🧩 컴포넌트 계층 구조
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```mermaid
+flowchart TD
+    Route --> Dashboard
+    Route --> Friends
+    Route --> Favorites
+    Route --> MyDining
+    Route --> TasteProfile
 
-Currently, two official plugins are available:
+    Dashboard --> ProfileCard
+    Dashboard --> AiRecommendationPanel
+    Dashboard --> KakaoMap
+    Dashboard --> RestaurantList
+    Dashboard --> AIChatbot
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+    ProfileCard --- PC["user\nuserCode\ntasteProfile\ntags"]
+    AiRecommendationPanel --- AI["nearbyRestaurants\ncurrentLocation\ntasteProfile\nonAnalyzed()"]
+    KakaoMap --- KM["onRestaurantClick()\nonAddToHistory()"]
+    RestaurantList --- RL["restaurants\nonFavoriteToggle()\nvisibleCount\nlastCardRef()"]
+    AIChatbot --- BOT["독립 동작\nOllama llama3"]
 
-## React Compiler
+    Friends --> FriendSearchBar
+    Friends --> FriendCard
+    Friends --> FriendDetail
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+    FriendSearchBar --- FS["onSearch()\nfindUserById()"]
+    FriendCard --- FC["friend\nonDelete()\nonViewProfile()\ntags"]
+    FriendDetail --> FriendProfileCard
+    FriendDetail --> FriendRecommendSection
+    FriendProfileCard --- FPC["friend\ntasteProfile\ntags\nTasteRadar"]
+    FriendRecommendSection --- FRS["myProfile\nfriendProfile\ntasteDatabase"]
 
-## Expanding the ESLint configuration
+    Favorites --- FAV["favorites\nonRemove()\nupdateFavoriteMemo()"]
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+    MyDining --- MD["visitHistory\n최대 10개 최신순"]
+
+    TasteProfile --> TasteSlider
+    TasteProfile --> TasteRadar
+    TasteSlider --- TS["spicy / texture\nsaltiness / sweetness / umami\nonChange()"]
+    TasteRadar --- TR["profile\nSVG 직접 구현\n실시간 반영"]
+```
